@@ -1,0 +1,15 @@
+<div class="question-item p-3 mb-2 text-white bg-secondary rounded">
+  <div class="question-item__text mb-2">
+    {{question.text}}
+  </div>
+  <div class="question-item__type mb-2">
+    {{question.type}}
+  </div>
+  <div class="question-item__date mb-2">
+    {{question.date | date: 'medium'}}
+  </div>
+  <div class="question-item__buttons d-flex justify-space-between mt-3">
+    <div role="button" class="btn btn-info bg-info py-2 px-3 me-5" [routerLink]="['./edit', question.id]">Edit</div>
+    <div role="button" class="btn btn-danger py-2 px-3" (click)="onDelete(question)">Delete</div>
+  </div>
+</div>

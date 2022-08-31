@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row mt-3">
+    <div class="col-6">
+      <h2>Unanswered</h2>
+      <ng-container *ngFor="let item of unanswered$ | async">
+        <app-answer-card (onAnswerEvent)="answerQuestion($event)" [question]="item"></app-answer-card>
+      </ng-container>
+    </div>
+    <div class="col-6">
+      <h2>Answered</h2>
+
+      <ng-container *ngFor="let item of answered$ | async">
+        <app-answer-card
+        (onRollbackEvent)="rollBackAnswer($event)"
+        (onAnswerEvent)="answerQuestion($event)"
+        [question]="item"
+        ></app-answer-card>
+      </ng-container>
+    </div>
+  </div>
+</div>

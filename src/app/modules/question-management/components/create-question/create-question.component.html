@@ -1,0 +1,8 @@
+<app-question-form (onSubmitEvent)="onSubmit($event)" [buttonName]="'Create'">
+  <ng-container header *ngTemplateOutlet="header"></ng-container>
+</app-question-form>
+
+<ng-template #header>
+  <button class="btn btn-secondary mt-3" routerLink="../">Back</button>
+  <h2 class="mt-3">Create question</h2>
+</ng-template>

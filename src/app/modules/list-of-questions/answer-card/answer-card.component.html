@@ -1,0 +1,67 @@
+<div class="card p-3 mb-3">
+  <div class="mb-3">{{question.text}}</div>
+  <form [formGroup]="form">
+
+    <div [ngSwitch]="question.type">
+      <div *ngSwitchCase="questionType.SINGLE_CHOICE">
+        <ng-container *ngTemplateOutlet="single"></ng-container>
+      </div>
+      <div *ngSwitchCase="questionType.MULTIPLE_CHOICE">
+        <ng-container *ngTemplateOutlet="multiple"></ng-container>
+      </div>
+      <div *ngSwitchCase="questionType.OPEN">
+        <ng-container *ngTemplateOutlet="open"></ng-container>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<ng-template #single>
+  <form [formGroup]="form">
+    <ng-container *ngFor="let option of question.options; let i = index">
+      <div>
+        <label [class.pe-none]="question.isAnswered" [class.opacity-75]="question.isAnswered">
+          <input name="answer" type="radio" [value]="option" formControlName="answer">
+            <span class="ms-2">{{option}}</span>
+        </label>
+      </div>
+    </ng-container>
+    <ng-container *ngTemplateOutlet="buttons"></ng-container>
+  </form>
+</ng-template>
+
+<ng-template #multiple>
+  <form [formGroup]="form">
+    <div *ngFor="let item of question.options; let i = index;">
+      <label [class.pe-none]="question.isAnswered" [class.opacity-75]="question.isAnswered">
+        <input [checked]="question.isAnswered && question.answer | question: item"
+          type="checkbox" [value]="item" (change)="onCheckChange($event)">
+          <span class="ms-2">{{item}}</span>
+      </label>
+    </div>
+
+    <ng-container *ngTemplateOutlet="buttons"></ng-container>
+
+  </form>
+
+</ng-template>
+
+
+<ng-template #open>
+  <form [formGroup]="form">
+    <textarea [class.pe-none]="question.isAnswered" [class.opacity-75]="question.isAnswered"
+     class="w-100" rows="4" formControlName="answer"></textarea>
+  </form>
+  <ng-container *ngTemplateOutlet="buttons"></ng-container>
+
+</ng-template>
+
+<ng-template #buttons>
+  <button
+    *ngIf="!question.isAnswered"
+    [disabled]="answer.invalid || answer.length === 0"
+    class="btn btn-success mt-3" (click)="onAnswer()">Answer</button>
+  <button *ngIf="question.isAnswered"
+    class="btn btn-primary mt-3" (click)="rollBackAnswer()">Rollback</button>
+</ng-template>
